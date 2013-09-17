@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+		<script>
+			
+
+			$(document).ready(function() {
+				(function(selectCb) {
+					var labels = ["Editor part1"
+						,"Editor part2"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						,"Editor part3"
+						];
+
+					var editorRoot = $("#editor");
+					editorRoot.empty();
+
+					for (var i = 0; i < labels.length; i++) {
+						var act = $("<div />")
+							.appendTo(editorRoot)
+							.text(labels[i])
+							;
+						act.click((function(elem) {
+								return function () {
+									selectCb({
+										setBackgroundColor: function(bgColor) {
+											elem.css({
+												"background-color": bgColor
+											});
+										},
+										offset: function() {
+											return elem.offset();
+										}
+									});
+								};
+							}(act)))
+							;
+					};
+
+					return {
+						toJson: function() {
+							//...
+						},
+						mobilePreview: function() {
+							//...
+						}
+					};
+				}(function(selectedElem) {
+					selectedElement(selectedElem);
+				}));
+
+				ko.bindingHandlers.offset = {
+					init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+				    },
+				    update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+				    	$(element).offset(valueAccessor()().offset());
+				    }
+				};
+
+
+				var selectedElement = ko.observable(null);
+
+
+				ko.applyBindings({
+					selectedElement: selectedElement,
+					hoverMenu: {
+						action1: function() {
+							selectedElement().setBackgroundColor("#abcdef");
+						},
+						action2: function() {
+							selectedElement().setBackgroundColor("#ddacea");
+						}
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="editor">
+			<div>
+				Editor part1
+			</div>
+			<div>
+				Editor part2
+			</div>
+		</div>
+
+		<!-- The hover menu -->
+		<!-- ko if: selectedElement -->
+			<div data-bind="offset: selectedElement">
+				<button data-bind="click: hoverMenu.action1">action1</button>
+				<button data-bind="click: hoverMenu.action2">action2</button>
+			</div>
+		<!-- /ko -->
+		<!-- End of the hover menu -->
+	</body>
+</html>

@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				var firstName = ko.observable("");
+				var lastName = ko.observable("");
+
+				var fullName = ko.computed({
+					read: function() {
+						var last = lastName();
+
+						if (last !== "") {
+							return firstName() + " " + lastName();
+						}
+
+						return firstName();
+					},
+					write: function(val) {
+						var arr = val.trim().split(" ");
+
+						firstName(arr[0]);
+
+						if (arr.length > 1) {
+							lastName(arr[1]);
+						} else {
+							lastName("");
+						}
+					}
+				});
+
+				var vm = {
+					firstName: firstName,
+					lastName: lastName,
+
+					fullName: fullName
+				};
+				ko.applyBindings(vm);
+			});
+		</script>
+	</head>
+	<body>
+		<div>FirstName: <span data-bind="text: firstName"></span></div>
+		<div>LastName: <span data-bind="text: lastName"></span></div>
+
+		<input data-bind="value: fullName, valueUpdate: 'afterkeydown'" />
+	</body>
+</html>

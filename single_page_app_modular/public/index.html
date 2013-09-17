@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script data-main="./main.js" src="./lib/require.js"></script>
+	</head>
+	<body>
+		<!-- ko if: pages.list -->
+			<div data-bind="template: {name: 'list', data: pages.list}"></div>
+		<!-- /ko -->
+		
+		<!-- ko if: pages.edit -->
+			<div data-bind="template: {name: 'edit', data: pages.edit}"></div>
+		<!-- /ko -->
+
+		<!-- ko if: pages.play -->
+			<div data-bind="template: {name: 'play', data: pages.play}"></div>
+		<!-- /ko -->
+
+		<!-- ko if: pages.info -->
+			<div data-bind="template: {name: 'info', data: pages.info}"></div>
+		<!-- /ko -->
+	</body>
+</html>

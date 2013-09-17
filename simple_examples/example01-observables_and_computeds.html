@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				function testVM() {
+					var firstName = ko.observable("");
+					var lastName = ko.observable("");
+
+					var fullName = ko.computed(function() {
+						return firstName() + " " + lastName();
+					});
+					return {
+						firstName: firstName,
+						lastName: lastName,
+
+						fullName: fullName
+					};
+				}
+				ko.applyBindings(testVM());
+			});
+		</script>
+	</head>
+	<body>
+		<div data-bind="text: firstName"></div>
+		<div data-bind="text: lastName"></div>
+
+		<div data-bind="text: fullName"></div>
+
+		<input data-bind="value: firstName" />
+		<input data-bind="value: lastName, valueUpdate: 'afterkeydown'" />
+	</body>
+</html>

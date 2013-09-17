@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.4/sammy.min.js"></script>
+
+		<script>
+			function singlePageAppVM() {
+				var pages = {
+					list: ko.observable(null),
+					edit: ko.observable(null),
+					play: ko.observable(null),
+					info: ko.observable(null)
+				};
+				function clearPages() {
+					for(var prop in pages) {
+						pages[prop](null);
+					}
+				}
+
+				Sammy(function () {
+					this.get("#list", function () {
+						clearPages();
+						pages.list({});
+					});
+
+					this.get("#edit/:id", function (context) {
+						clearPages();
+						pages.edit({});
+					});
+
+					this.get("#play/:id", function (context) {
+						clearPages();
+						pages.play({});
+					});
+
+					this.get("#info", function () {
+						clearPages();
+						pages.info({});
+					});
+
+					this.get ("", function () {
+						location.hash = "#info";
+					});
+				}).run();
+
+				return {
+					//erre meg tipikusan jon par fg., pl logout, userrol infok, stb...
+					pages: pages
+				};
+			}
+
+			$(document).ready(function() {
+				ko.applyBindings(singlePageAppVM());
+			});
+		</script>
+	</head>
+	<body>
+		<!-- ko if: pages.info -->
+			info
+		<!-- /ko -->
+
+		<!-- ko if: pages.list -->
+			list
+		<!-- /ko -->
+
+		<!-- ko if: pages.edit -->
+			edit
+		<!-- /ko -->
+
+		<!-- ko if: pages.play -->
+			play
+		<!-- /ko -->
+	</body>
+</html>

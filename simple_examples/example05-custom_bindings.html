@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+
+		<script>
+			ko.bindingHandlers.slideUpDown = {
+				init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+					var visible = ko.utils.unwrapObservable(valueAccessor());
+
+					if (visible) {
+			    		$(element).show();
+			    	} else {
+			    		$(element).hide();
+			    	}
+			    },
+			    update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			    	var visible = ko.utils.unwrapObservable(valueAccessor());
+
+			    	if (visible) {
+			    		$(element).slideDown();
+			    	} else {
+			    		$(element).slideUp();
+			    	}
+			    }
+			};
+			$(document).ready(function() {
+				ko.applyBindings({
+					visible: ko.observable(false)
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div>
+			<button data-bind="click: visible.bind($data, !visible())">Toggle</button>
+		</div>
+		<div style="width: 500px; height: 300px;">
+			<img style="width: 500px;" data-bind="slideUpDown: visible" src="http://knockoutjs.com/img/ko-logo.png" />
+			<img style="width: 500px;" data-bind="slideUpDown: !visible()" src="http://4.bp.blogspot.com/_Gkxrvtze9SA/S36o6zcsK6I/AAAAAAAAAvs/VmtcRcGhY_E/s320/Knockout+Punch.jpg" />
+		</div>
+	</body>
+</html>

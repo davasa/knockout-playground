@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				function stringListVM() {
+					var list = ko.observableArray(["aaa", "bbb"]);
+
+					var newElem = ko.observable("");
+					
+					var allowAdd = ko.computed(function() {
+						return newElem() !== "";
+					});
+
+					function add() {
+						if (allowAdd()) {
+							list.push(newElem());
+							newElem("");
+						}
+					}
+
+					add.allow = allowAdd;
+
+
+					return {
+						list: list,
+						newElem: newElem,
+						add: add
+					};
+				}
+
+				var vm = stringListVM();
+				ko.applyBindings(vm);
+			});
+		</script>
+	</head>
+	<body>
+		<ul data-bind="foreach: list">
+			<li data-bind="text: $data"></li>
+		</ul>
+		
+		<input data-bind="value: newElem, valueUpdate: 'afterkeydown'" />
+		<button data-bind="click: add, enable: add.allow">Add</button>
+	</body>
+</html>
