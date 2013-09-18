@@ -5,40 +5,45 @@
 
 		<script>
 			$(document).ready(function() {
-				function stringListVM() {
-					var list = ko.observableArray(["aaa", "bbb"]);
+			function stringListVM() {
+				var list = ko.observableArray(["I", "am", "the", "reincarnation", "of", "Jimmi", "Hendrix", "."]);
 
-					var newElem = ko.observable("");
-					
-					var allowAdd = ko.computed(function() {
-						return newElem() !== "";
-					});
+				var newElem = ko.observable("");
+				
+				var allowAdd = ko.computed(function() {
+					return newElem() !== "";
+				});
 
-					function add() {
-						if (allowAdd()) {
-							list.push(newElem());
-							newElem("");
-						}
+				function add() {
+					if (allowAdd()) {
+						list.push(newElem());
+						newElem("");
 					}
-
-					add.allow = allowAdd;
-
-
-					return {
-						list: list,
-						newElem: newElem,
-						add: add
-					};
 				}
 
-				var vm = stringListVM();
-				ko.applyBindings(vm);
+				add.allow = allowAdd;
+				
+				function deleteElem(elem) {
+					list.remove(elem);
+				}
+
+
+				return {
+					list: list,
+					newElem: newElem,
+					add: add,
+					deleteElem: deleteElem
+				};
+			}
+
+			var vm = stringListVM();
+			ko.applyBindings(vm);
 			});
 		</script>
 	</head>
 	<body>
 		<ul data-bind="foreach: list">
-			<li data-bind="text: $data"></li>
+			<li data-bind="text: $data, click: $parent.deleteElem"></li>
 		</ul>
 		
 		<input data-bind="value: newElem, valueUpdate: 'afterkeydown'" />
