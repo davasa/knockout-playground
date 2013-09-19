@@ -10,13 +10,14 @@
 
 				var fullName = ko.computed({
 					read: function() {
+						var first = firstName();
 						var last = lastName();
 
 						if (last !== "") {
-							return firstName() + " " + lastName();
+							return first + " " + last;
 						}
 
-						return firstName();
+						return first;
 					},
 					write: function(val) {
 						var arr = val.trim().split(" ");
